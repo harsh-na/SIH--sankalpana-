@@ -1,0 +1,33 @@
+/* h1 {
+    color:green;
+} */
+
+body {
+    color:red;
+    font-family: arial;
+    max-width:650px;
+    margin: 0 auto;
+    padding: 0 16px;
+
+    display: flex;
+    flex-direction: column;
+    max-height: 1100vh;
+}
+footer{
+    color: aqua;
+    border-top: 2px solid red;
+    margin-top: 16px;
+    padding: 16px 0px;
+}
+header{
+    margin-top: 16px;
+    margin-bottom: 48px;
+}
+header a{
+    color: brown;
+    margin: 16px;
+    text-decoration: none;
+}
+.main-content{
+    flex-grow: 1;
+}
