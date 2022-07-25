@@ -2,74 +2,47 @@ const express=require('express')
 require('./db/mongoose')
 const User=require('./models/user')
 const Task=require('./models/task')
+const userRouter =require('./routers/user')
+const taskRouter=require('./routers/task')
+// const { findByIdAndDelete } = require('./models/user')
 
 const app=express()
-
 const port=process.env.PORT||3000
 
+// app.use((req,res,next)=>{
+//     if(req.method==='GET'){
+//         res.send('GET requests are disabled')
+//     }else{
+//         next()
+//     }
+//     // console.log(req.method,req.path)
+//     // next()
+// })
+
+
+// app.use((req,res,next)=>{
+//     res.status(503).send('site is currently down. check back soon')
+// })
+
 app.use(express.json())
-
-app.post('/users',(req,res)=>{//The app.post() method routes all the HTTP POST requests to the specified path with the specified callback functions.
-const user= new User(req.body)
-
-   user.save().then(()=>{
-    res.status(201).send(user)
-   }).catch((e)=>{
-       res.status(400).send(e)
-   })
-})
-
-app.get('/users',(req,res)=>{
-    User.find({ name:'harshit'}).then((users)=>{
-        res.send(users)
-    }).catch((e)=>{
-res.status(500).send()//error 500 =>service is currently down
-    })
-})
-
-app.get('/users/:id',(req,res)=>{
-const _id=req.params.id
-
-    User.findById(_id).then((user)=>{
-        if(!user){
-            return res.status(404).send()
-        }
-        res.send(user)
-    }).catch((e)=>{
-        res.status(404).send()
-    })
-})
-
-app.get('/tasks',(req,res)=>{
-    Task.find({description:"finish my code"}).then((tasks)=>{
-        res.send(tasks)
-    }).catch((e)=>{
-        res.status(500).send()
-    })
-})
-
-app.get('/tasks/:id',(req,res)=>{
-    const _id=req.params.id
-
-    Task.findById(_id).then((task)=>{
-        if(!task){
-            return res.status(404).send()
-        }res.send(task)
-    }).catch((e)=>{
-        res.status(404).send()
-    })
-})
-
-app.post('/tasks',(req,res)=>{
-    const task=new Task(req.body)
-
-    task.save().then(()=>{
-        res.send(task)
-    }).catch((e)=>{
-        res.status(400).send(e)
-    })
-})
+app.use(userRouter)
+app.use(taskRouter)
 
 app.listen(port,()=>{
     console.log('Server is on Port '+port)
 })
+
+// const Task=require('./models/task')
+// const User=require('./models/user')
+
+const main=async()=>{
+    // const task=await Task.findById('62dce8b76c5368fad7a16e9c')
+    // await task.populate('owner').execPopulate()
+    // console.log(task.owner)
+const user=await User.findById('62dce04da52af4a45ad10110')
+await user.populate('tasks')
+console.log(user.tasks)
+
+}
+
+main()
