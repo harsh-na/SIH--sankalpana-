@@ -4,7 +4,6 @@ const User=require('../models/user')
 const auth=require('../middleware/auth')
 const router = new express.Router()
 
-
 router.post('/users',async(req,res)=>{//The app.post() method routes all the HTTP POST requests to the specified path with the specified callback functions.
     const user= new User(req.body)
     
